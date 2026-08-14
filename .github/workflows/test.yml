@@ -1,0 +1,23 @@
+name: Test formulae
+
+on: [push, pull_request]
+
+jobs:
+  formula:
+    name: Audit and install
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ruby syntax
+        run: ruby -c Formula/aidentity.rb
+
+      - name: Install from this tap and run it
+        run: |
+          brew tap pinishv/tap "$GITHUB_WORKSPACE"
+          brew install pinishv/tap/aidentity
+          aidentity version
+          aidentity doctor || true
+
+      - name: Audit
+        run: brew audit --strict --online pinishv/tap/aidentity
