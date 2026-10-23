@@ -8,10 +8,10 @@
 class Aidentity < Formula
   desc "Run several accounts of the same Mac app at the same time"
   homepage "https://github.com/PiniShv/aidentity"
-  url "https://github.com/PiniShv/aidentity/archive/refs/tags/v1.1.0.tar.gz"
+  url "https://github.com/PiniShv/aidentity/archive/refs/tags/v1.2.0.tar.gz"
   # Get the real value with:
-  #   curl -sL https://github.com/PiniShv/aidentity/archive/refs/tags/v1.1.0.tar.gz | shasum -a 256
-  sha256 "954ed4deb83d1416965febd9507992ebff9d737a5c8c28b1d42fe3ff7742f873"
+  #   curl -sL https://github.com/PiniShv/aidentity/archive/refs/tags/v1.2.0.tar.gz | shasum -a 256
+  sha256 "d74297120e2983344c8cc774755ac9ea8c9fa261f37cb6f2a8e740a7c33d820b"
   license "MIT"
   head "https://github.com/PiniShv/aidentity.git", branch: "main"
 
@@ -28,13 +28,14 @@ class Aidentity < Formula
       Launchers are written to ~/Applications and profile data to
         ~/Library/Application Support/aidentity/profiles
 
-      Start with:
-        aidentity doctor
-        aidentity add
+      Start with the guided walkthrough:
+        aidentity setup
     EOS
   end
 
   test do
-    assert_match "aidentity #{version}", shell_output("#{bin}/aidentity version")
+    # A pattern, not "aidentity #{version}": a --HEAD build's version is
+    # HEAD-<sha>, while the script prints its own release number.
+    assert_match(/^aidentity \d+\.\d+\.\d+$/, shell_output("#{bin}/aidentity version"))
   end
 end
